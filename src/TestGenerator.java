@@ -70,7 +70,7 @@ public interface TestGenerator {
             }
         }
         final int knapsackWeight = _knapsackWeight;
-        Knapsack knapsack = new Knapsack() {
+        Knapsack knapsack = new ZNKnapsackBruteForce() {
             @Override
             public int totalAllowedWeight() {
                 return knapsackWeight;
