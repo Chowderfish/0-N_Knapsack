@@ -2,6 +2,8 @@ package algorithms;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
@@ -12,7 +14,8 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
      */
     default Item[] fillKnapsack(Item[] allItems) {
         Node startNode = Node.startNode(allItems);
-        Node best = findBest(startNode);
+        Set<Node> visited = new HashSet<>();
+        Node best = findBest(startNode, visited);
 
         ArrayList<Item> items = new ArrayList<>();
         int[] itemCount = best.getNodeItemCount();
@@ -28,15 +31,18 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
      * @param node Base node denoting an empty Knapsack
      * @return Node returns the result best value node within the weight limit of this Knapsack
      */
-    default Node findBest(Node node) {
+    default Node findBest(Node node, Set<Node> visited) {
+        for (Node n : visited) {
+            if (Arrays.equals(n.getNodeItemCount(), node.getNodeItemCount()))return node;
+        }
+
+        visited.add(node);
         Node best = node;
         for (int i = 0; i < node.getNodeItems().length; i++) {
             Node next = Node.newNode(node, i);
             if (next.getNodeWeight() <= totalAllowedWeight()) {
-                if (best != null) {
-                    Node temp = findBest(next);
-                    best = temp.getNodeValue() > best.getNodeValue() ? temp : best;
-                } else best = findBest(next);
+                Node temp = findBest(next, visited);
+                best = temp.getNodeValue() > best.getNodeValue() ? temp : best;
             }
         }
         return best;
@@ -66,16 +72,16 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
         static Node startNode(Item[] items) {
             int[] startCount = new int[items.length];
             Arrays.fill(startCount, 0);
-           return new Node() {
+            return new Node() {
                 @Override
                 public int[] getNodeItemCount() {
                     return startCount;
                 }
-               @Override
-               public Item[] getNodeItems() {
-                   return items;
-               }
-           };
+                @Override
+                public Item[] getNodeItems() {
+                    return items;
+                }
+            };
         }
 
         /**
