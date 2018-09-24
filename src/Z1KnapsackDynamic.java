@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public interface Z1Knapsack extends Knapsack {
+public interface Z1KnapsackDynamic extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.

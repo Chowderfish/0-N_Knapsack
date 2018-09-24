@@ -37,7 +37,6 @@ public interface TestGenerator {
             public int getWeight() {
                 return (int)Math.round(randomWeight);
             }
-
             @Override
             public int getValue() {
                 return (int)Math.round(randomValue);
@@ -46,7 +45,26 @@ public interface TestGenerator {
     }
 
     static void main(String[] args) {
-        String nameForConsole = "01knapsack: ";
+        //TODO console selector for various algorithm modes
+        int mode = 0;
+        String nameForConsole;
+        switch (mode) {
+            case 1: //01knapsack
+                nameForConsole = "01knapsack: ";
+                break;
+            case 2: //0N brute force knapsack
+                nameForConsole = "0Nknapsack-bf: ";
+                break;
+            case 3: //0N dynamic knapsack
+                nameForConsole = "0Nknapsack-dp: ";
+                break;
+            case 4: //0N graph search knapsack
+                nameForConsole = "01knapsack-gs: ";
+                break;
+            default:    //TODO handle better
+                nameForConsole = null;
+                break;
+        }
         int _numTests = -1, _numItemsPerTest = -1, _knapsackWeight = -1;
         Scanner scanner = new Scanner(System.in);
         while (_numTests == -1 || _numItemsPerTest == -1 || _knapsackWeight == -1) {
@@ -70,12 +88,46 @@ public interface TestGenerator {
             }
         }
         final int knapsackWeight = _knapsackWeight;
-        Knapsack knapsack = new ZNKnapsackBruteForce() {
-            @Override
-            public int totalAllowedWeight() {
-                return knapsackWeight;
-            }
-        };
+
+        Knapsack knapsack;
+        switch(mode) {
+            case 1: //01knapsack
+                knapsack = new Z1KnapsackDynamic() {
+                    @Override
+                    public int totalAllowedWeight() {
+                        return knapsackWeight;
+                    }
+                };
+                break;
+            case 2: //0N brute force knapsack
+                knapsack = new ZNKnapsackBruteForce() {
+                    @Override
+                    public int totalAllowedWeight() {
+                        return knapsackWeight;
+                    }
+                };
+                break;
+            case 3: //0N dynamic knapsack
+                knapsack = new ZNKnapsackDynamic() {
+                    @Override
+                    public int totalAllowedWeight() {
+                        return knapsackWeight;
+                    }
+                };
+                break;
+            case 4: //0N graph search knapsack
+                knapsack = new ZNKnapsackGraphSearch() {
+                    @Override
+                    public int totalAllowedWeight() {
+                        return knapsackWeight;
+                    }
+                };
+                break;
+            default:    //TODO handle better
+                knapsack = null;
+                break;
+        }
+
         Test[] tests = generateTests(_numTests, _numItemsPerTest, _knapsackWeight);
         runAllTests(tests, knapsack);
     }

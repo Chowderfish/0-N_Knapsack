@@ -10,7 +10,7 @@ public interface ZNKnapsackBruteForce extends Knapsack {
      */
     default Item[] fillKnapsack(Item[] allItems) {
         List<List<Item>> allSolutions = new ArrayList<>();
-        allSolutions = bruteForceFill(allSolutions, null, allItems, allItems.length-1);
+        allSolutions = iterativeBF(allItems);
 
         int best = Integer.MIN_VALUE;
         List<Item> bestSolution = new ArrayList<>();
@@ -20,42 +20,44 @@ public interface ZNKnapsackBruteForce extends Knapsack {
                 best = value;
                 bestSolution = solution;
             }
-
-//            System.out.println("Solution = "+calculateValue(solution)+"(v), "+calculateWeight(solution)+"(w)");
-//            for (Item item : solution) {
-//                item.print();
-//            }
         }
         return bestSolution.toArray(new Item[bestSolution.size()]);
     }
 
-    default List<List<Item>> bruteForceFill(List<List<Item>> allSolutions, List<Item> solution, Item[] items, int n) {
-        if (solution == null) {
-            solution = new ArrayList<>();
+    /**
+     * Should not be called directly from outside of this interface.
+     * @param items array of items with which the Knapsack may be filled
+     * @return List<List<Item>> A list of all solutions - each solution is a list of Item
+     */
+    default List<List<Item>> iterativeBF(Item[] items) {
+        List<List<Item>> allSolutions = new ArrayList<>();
+        for (int i = 0; i < items.length; i++) {
+            List<Item> solution = new ArrayList<>();
+            if (items[i].getWeight() <= totalAllowedWeight()) solution.add(items[i]);
+            for (Item item : items) {
+                if (calculateWeight(solution) + item.getWeight() <= totalAllowedWeight()) solution.add(item);
+            }
             allSolutions.add(solution);
         }
-        if (n == 0) return allSolutions;
-
-        if (calculateWeight(solution) + items[n].getWeight() > totalAllowedWeight()) return bruteForceFill(allSolutions, solution, items, n-1);
-
-        for (int i = 0; i < n; i++) {
-            if (calculateWeight(solution) + items[i].getWeight() <= totalAllowedWeight()) {
-                List<Item> newSolution = new ArrayList<>(solution);
-                allSolutions.add(newSolution);
-                newSolution.add(items[i]);
-                return bruteForceFill(allSolutions, newSolution, items, n);
-            }
-        }
-        solution.add(items[n]);
-        return bruteForceFill(allSolutions, solution, items, n);
+        return allSolutions;
     }
 
+    /**
+     * Should not be called directly from outside of this interface.
+     * @param items Takes a List<Item> and calculates the total value of all Item in the List
+     * @return int total value of all Item in the list
+     */
     default int calculateValue(List<Item> items) {
         int total = 0;
         for (Item item : items) total += item.getValue();
         return total;
     }
 
+    /**
+     * Should not be called directly from outside of this interface.
+     * @param items Takes a List<Item> and calculates the total weight of all Item in the List
+     * @return int total weight of all Item in the list
+     */
     default int calculateWeight(List<Item> items) {
         int total = 0;
         for (Item item : items) total += item.getWeight();
