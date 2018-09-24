@@ -127,12 +127,17 @@ public interface TestGenerator {
         long start = System.currentTimeMillis();
         Test[] tests = generateTests(_numTests, _numItemsPerTest, _knapsackWeight);
         String testGenerationOutput = nameForConsole+(_numTests*_numItemsPerTest)+" test items generated across "+_numTests+" tests in "+(System.currentTimeMillis()-start)+"ms";
-        if (knapsack != null) runAllTests(tests, knapsack);
-        else startBenchmark(tests, knapsackWeight);
+        if (knapsack != null){
+            long algorithmTime = System.currentTimeMillis();
+            runAllTests(tests, knapsack);
+            algorithmTime = System.currentTimeMillis() - algorithmTime;
+            System.out.println(nameForConsole+"Algorithm completed "+_numTests+" tests ("+_numItemsPerTest+" items per test) in "+algorithmTime+"ms");
+        }
+        else startBenchmark(tests, knapsackWeight, _numTests, _numItemsPerTest);
         System.out.println(testGenerationOutput);
     }
 
-    static void startBenchmark(Test[] tests, int knapsackWeight) {
+    static void startBenchmark(Test[] tests, int knapsackWeight, int numTests, int itemsPerTest) {
         long zeroOneDynamic = System.currentTimeMillis();
         Knapsack knapsack = zeroOneDynamic(knapsackWeight);
         runAllTests(tests, knapsack);
@@ -155,10 +160,10 @@ public interface TestGenerator {
 
         String nameForConsole = "benchmark: ";
         System.out.println(
-                nameForConsole+"0-1 Knapsack Dynamic Programming Algorithm completed in: "+zeroOneDynamic+"ms"+
-                "\n"+nameForConsole+"0-N Knapsack Brute Force Algorithm completed in: "+zeroNBruteForce+"ms"+
-                "\n"+nameForConsole+"0-N Knapsack Dynamic Programming Algorithm completed in: "+zeroNDynamic+"ms"+
-                "\n"+nameForConsole+"0-N Knapsack Graph Search Algorithm completed in: "+zeroNGS+"ms");
+                nameForConsole+"0-1 Knapsack Dynamic Programming Algorithm completed in: "+zeroOneDynamic+"ms"+"    (approx. "+(zeroOneDynamic/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N Knapsack Brute Force Algorithm completed in: "+zeroNBruteForce+"ms"+"    (approx. "+(zeroNBruteForce/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N Knapsack Dynamic Programming Algorithm completed in: "+zeroNDynamic+"ms"+"    (approx. "+(zeroNDynamic/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N Knapsack Graph Search Algorithm completed in: "+zeroNGS+"ms"+"    (approx. "+(zeroNGS/numTests)+"ms per test)");
     }
 
     static Knapsack zeroOneDynamic(int knapsackWeight) {
