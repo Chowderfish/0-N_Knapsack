@@ -47,9 +47,26 @@ public interface TestGenerator {
     }
 
     static void main(String[] args) {
-        //TODO console selector for various algorithm modes
-        int mode = 4;
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        int mode = -1;
         String nameForConsole;
+        System.out.println("Specify which algorithm you would like to run:");
+        System.out.println("1.  0-1 Knapsack Dynamic Programming Algorithm");
+        System.out.println("2.  0-N Knapsack Brute Force Algorithm");
+        System.out.println("3.  0-N Knapsack Dynamic Programming Algorithm");
+        System.out.println("4.  0-N Knapsack Graph Search Algorithm");
+        System.out.println("0.  Benchmark mode (runs all algorithms)");
+        while (mode == -1) {
+            input = scanner.nextLine();
+            try {
+                int arg = Integer.parseInt(input);
+                if (arg < 0) throw new NumberFormatException();
+                mode = arg;
+            } catch (NumberFormatException e) {
+                System.out.println("Please input a valid option (0-4)");
+            }
+        }
         switch (mode) {
             case 1: //01knapsack
                 nameForConsole = "01knapsack: ";
@@ -63,12 +80,11 @@ public interface TestGenerator {
             case 4: //0N graph search knapsack
                 nameForConsole = "01knapsack-gs: ";
                 break;
-            default:    //TODO handle better
-                nameForConsole = null;
+            default: //Benchmark mode
+                nameForConsole = "benchmark: ";
                 break;
         }
         int _numTests = -1, _numItemsPerTest = -1, _knapsackWeight = -1;
-        Scanner scanner = new Scanner(System.in);
         while (_numTests == -1 || _numItemsPerTest == -1 || _knapsackWeight == -1) {
             if (_numTests == -1)
                 System.out.println(nameForConsole + "Specify the number of tests you would like to run");
@@ -76,10 +92,10 @@ public interface TestGenerator {
                 System.out.println(nameForConsole + "Specify the number of items per test");
             else if (_knapsackWeight == -1)
                 System.out.println(nameForConsole + "Specify the weight capacity of the knapsack");
-            String input = scanner.nextLine();
+            input = scanner.nextLine();
             try {
                 int arg = Integer.parseInt(input);
-                if (arg < 0) throw new NumberFormatException();
+                if (arg <= 0) throw new NumberFormatException();
                 if (_numTests == -1) _numTests = arg;
                 else if (_numItemsPerTest == -1) _numItemsPerTest = arg;
                 else if (_knapsackWeight == -1) _knapsackWeight = arg;
@@ -90,47 +106,91 @@ public interface TestGenerator {
             }
         }
         final int knapsackWeight = _knapsackWeight;
-
         Knapsack knapsack;
         switch(mode) {
             case 1: //01knapsack
-                knapsack = new ZeroOneKnapsackDynamic() {
-                    @Override
-                    public int totalAllowedWeight() {
-                        return knapsackWeight;
-                    }
-                };
+                knapsack = zeroOneDynamic(knapsackWeight);
                 break;
             case 2: //0N brute force knapsack
-                knapsack = new ZeroNKnapsackBruteForce() {
-                    @Override
-                    public int totalAllowedWeight() {
-                        return knapsackWeight;
-                    }
-                };
+                knapsack = zeroNBF(knapsackWeight);
                 break;
             case 3: //0N dynamic knapsack
-                knapsack = new ZeroNKnapsackDynamic() {
-                    @Override
-                    public int totalAllowedWeight() {
-                        return knapsackWeight;
-                    }
-                };
+                knapsack = zeroNDynamic(knapsackWeight);
                 break;
             case 4: //0N graph search knapsack
-                knapsack = new ZeroNKnapsackGraphSearch() {
-                    @Override
-                    public int totalAllowedWeight() {
-                        return knapsackWeight;
-                    }
-                };
+                knapsack = zeroNGS(knapsackWeight);
                 break;
-            default:    //TODO handle better
+            default: //Benchmark mode
                 knapsack = null;
                 break;
         }
-
+        long start = System.currentTimeMillis();
         Test[] tests = generateTests(_numTests, _numItemsPerTest, _knapsackWeight);
+        String testGenerationOutput = nameForConsole+(_numTests*_numItemsPerTest)+" test items generated across "+_numTests+" tests in "+(System.currentTimeMillis()-start)+"ms";
+        if (knapsack != null) runAllTests(tests, knapsack);
+        else startBenchmark(tests, knapsackWeight);
+        System.out.println(testGenerationOutput);
+    }
+
+    static void startBenchmark(Test[] tests, int knapsackWeight) {
+        long zeroOneDynamic = System.currentTimeMillis();
+        Knapsack knapsack = zeroOneDynamic(knapsackWeight);
         runAllTests(tests, knapsack);
+        zeroOneDynamic = System.currentTimeMillis() - zeroOneDynamic;
+
+        long zeroNBruteForce = System.currentTimeMillis();
+        knapsack = zeroNBF(knapsackWeight);
+        runAllTests(tests, knapsack);
+        zeroNBruteForce = System.currentTimeMillis() - zeroNBruteForce;
+
+        long zeroNDynamic = System.currentTimeMillis();
+        knapsack = zeroNDynamic(knapsackWeight);
+        runAllTests(tests, knapsack);
+        zeroNDynamic = System.currentTimeMillis() - zeroNDynamic;
+
+        long zeroNGS = System.currentTimeMillis();
+        knapsack = zeroNGS(knapsackWeight);
+        runAllTests(tests, knapsack);
+        zeroNGS = System.currentTimeMillis() - zeroNGS;
+
+        String nameForConsole = "benchmark: ";
+        System.out.println(
+                nameForConsole+"0-1 Knapsack Dynamic Programming Algorithm completed in: "+zeroOneDynamic+"ms"+
+                "\n"+nameForConsole+"0-N Knapsack Brute Force Algorithm completed in: "+zeroNBruteForce+"ms"+
+                "\n"+nameForConsole+"0-N Knapsack Dynamic Programming Algorithm completed in: "+zeroNDynamic+"ms"+
+                "\n"+nameForConsole+"0-N Knapsack Graph Search Algorithm completed in: "+zeroNGS+"ms");
+    }
+
+    static Knapsack zeroOneDynamic(int knapsackWeight) {
+        return new ZeroOneKnapsackDynamic() {
+            @Override
+            public int totalAllowedWeight() {
+                return knapsackWeight;
+            }
+        };
+    }
+    static Knapsack zeroNBF(int knapsackWeight) {
+        return new ZeroNKnapsackBruteForce() {
+            @Override
+            public int totalAllowedWeight() {
+                return knapsackWeight;
+            }
+        };
+    }
+    static Knapsack zeroNDynamic(int knapsackWeight) {
+        return new ZeroNKnapsackDynamic() {
+            @Override
+            public int totalAllowedWeight() {
+                return knapsackWeight;
+            }
+        };
+    }
+    static Knapsack zeroNGS(int knapsackWeight) {
+        return new ZeroNKnapsackGraphSearch() {
+            @Override
+            public int totalAllowedWeight() {
+                return knapsackWeight;
+            }
+        };
     }
 }
