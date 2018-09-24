@@ -1,3 +1,6 @@
+import algorithms.Item;
+import algorithms.Knapsack;
+
 public interface Test {
     /**
      *

@@ -1,3 +1,5 @@
+import algorithms.*;
+
 import java.util.Scanner;
 
 public interface TestGenerator {
@@ -92,7 +94,7 @@ public interface TestGenerator {
         Knapsack knapsack;
         switch(mode) {
             case 1: //01knapsack
-                knapsack = new Z1KnapsackDynamic() {
+                knapsack = new ZeroOneKnapsackDynamic() {
                     @Override
                     public int totalAllowedWeight() {
                         return knapsackWeight;
@@ -100,7 +102,7 @@ public interface TestGenerator {
                 };
                 break;
             case 2: //0N brute force knapsack
-                knapsack = new ZNKnapsackBruteForce() {
+                knapsack = new ZeroNKnapsackBruteForce() {
                     @Override
                     public int totalAllowedWeight() {
                         return knapsackWeight;
@@ -108,7 +110,7 @@ public interface TestGenerator {
                 };
                 break;
             case 3: //0N dynamic knapsack
-                knapsack = new ZNKnapsackDynamic() {
+                knapsack = new ZeroNKnapsackDynamic() {
                     @Override
                     public int totalAllowedWeight() {
                         return knapsackWeight;
@@ -116,7 +118,7 @@ public interface TestGenerator {
                 };
                 break;
             case 4: //0N graph search knapsack
-                knapsack = new ZNKnapsackGraphSearch() {
+                knapsack = new ZeroNKnapsackGraphSearch() {
                     @Override
                     public int totalAllowedWeight() {
                         return knapsackWeight;

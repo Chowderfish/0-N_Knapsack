@@ -1,7 +1,9 @@
+package algorithms;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public interface ZNKnapsackBruteForce extends Knapsack {
+public interface ZeroNKnapsackBruteForce extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.

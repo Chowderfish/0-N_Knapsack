@@ -1,4 +1,6 @@
-public interface ZNKnapsackGraphSearch extends Knapsack {
+package algorithms;
+
+public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.

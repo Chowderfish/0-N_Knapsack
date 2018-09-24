@@ -1,6 +1,8 @@
+package algorithms;
+
 import java.util.Arrays;
 
-public interface ZNKnapsackDynamic extends Knapsack {
+public interface ZeroNKnapsackDynamic extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.
