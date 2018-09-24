@@ -46,7 +46,7 @@ public interface TestGenerator {
 
     static void main(String[] args) {
         //TODO console selector for various algorithm modes
-        int mode = 0;
+        int mode = 3;
         String nameForConsole;
         switch (mode) {
             case 1: //01knapsack
