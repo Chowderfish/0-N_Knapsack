@@ -21,7 +21,7 @@ public interface ZeroOneKnapsackDynamic extends Knapsack {
      */
     default int[][] calculateValueTable(Item[] items) {
         int[][] table = new int[items.length+1][totalAllowedWeight()+1];
-
+        
         for (int w = 0; w <= totalAllowedWeight(); w++) table[0][w] = 0; //0 weight means 0 items
 
         for (int i = 1; i <= items.length; i++) {
