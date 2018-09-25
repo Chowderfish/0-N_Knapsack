@@ -9,8 +9,8 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.
-     * @param allItems array of Items with which the Knapsack may be filled
-     * @return Item[] array of the items that achieve the best possible value within the weight limit of this Knapsack
+     * @param allItems array of Items with which the algorithms.Knapsack may be filled
+     * @return algorithms.Item[] array of the items that achieve the best possible value within the weight limit of this algorithms.Knapsack
      */
     default Item[] fillKnapsack(Item[] allItems) {
         Node startNode = Node.startNode(allItems);
@@ -28,8 +28,8 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param node Base node denoting an empty Knapsack
-     * @return Node returns the result best value node within the weight limit of this Knapsack
+     * @param node Base node denoting an empty algorithms.Knapsack
+     * @return Node returns the result best value node within the weight limit of this algorithms.Knapsack
      */
     default Node findBest(Node node, Set<Node> visited) {
         for (Node n : visited) {
@@ -49,24 +49,24 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
     }
 
     /**
-     * Node denotes the state of the Knapsack
+     * Node denotes the state of the algorithms.Knapsack
      */
     interface Node {
         /**
          * Should not be called directly from outside of this interface.
-         * @return integer array which denotes the Items in the Knapsack at this Node
+         * @return integer array which denotes the Items in the algorithms.Knapsack at this Node
          */
         int[] getNodeItemCount();
 
         /**
          * Should not be called directly from outside of this interface.
-         * @return Item array which maps to each index of the array returned by getNodeItemCount()
+         * @return algorithms.Item array which maps to each index of the array returned by getNodeItemCount()
          */
         Item[] getNodeItems();
 
         /**
          *
-         * @param items with which the Knapsack can be filled
+         * @param items with which the algorithms.Knapsack can be filled
          * @return Node which represents the the origin, with fields initialised to match the given set of Items.
          */
         static Node startNode(Item[] items) {
@@ -87,8 +87,8 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
         /**
          * Should not be called directly from outside of this interface.
          * @param origin The Node which this newNode should be based upon
-         * @param item The Item which has been added to the origin node at this node.
-         * @return the new node representing the Knapsack as shown in the given origin with the addition of the given item.
+         * @param item The algorithms.Item which has been added to the origin node at this node.
+         * @return the new node representing the algorithms.Knapsack as shown in the given origin with the addition of the given item.
          */
         static Node newNode(Node origin, int item) {
             int[] nodeCount = origin.getNodeItemCount().clone();
@@ -107,7 +107,7 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
         /**
          * Should not be called directly from outside of this interface.
-         * @return integer representing the total weight of all Item in the Knapsack at this Node.
+         * @return integer representing the total weight of all algorithms.Item in the algorithms.Knapsack at this Node.
          */
         default int getNodeWeight() {
             int totalWeight = 0;
@@ -121,7 +121,7 @@ public interface ZeroNKnapsackGraphSearch extends Knapsack {
 
         /**
          * Should not be called directly from outside of this interface.
-         * @return integer representing the total value of all Item in the Knapsack at this Node.
+         * @return integer representing the total value of all algorithms.Item in the algorithms.Knapsack at this Node.
          */
         default int getNodeValue() {
             int totalValue = 0;

@@ -7,8 +7,8 @@ public interface ZeroNKnapsackBruteForce extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.
-     * @param allItems array of Items with which the Knapsack may be filled
-     * @return Item[] array of the items that achieve the best possible value within the weight limit of this Knapsack
+     * @param allItems array of Items with which the algorithms.Knapsack may be filled
+     * @return algorithms.Item[] array of the items that achieve the best possible value within the weight limit of this algorithms.Knapsack
      */
     default Item[] fillKnapsack(Item[] allItems) {
         List<List<Item>> allSolutions = new ArrayList<>();
@@ -28,8 +28,8 @@ public interface ZeroNKnapsackBruteForce extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param items array of items with which the Knapsack may be filled
-     * @return List<List<Item>> A list of all solutions - each solution is a list of Item
+     * @param items array of items with which the algorithms.Knapsack may be filled
+     * @return List<List<algorithms.Item>> A list of all solutions - each solution is a list of algorithms.Item
      */
     default List<List<Item>> iterativeBF(Item[] items) {
         List<List<Item>> allSolutions = new ArrayList<>();
@@ -46,8 +46,8 @@ public interface ZeroNKnapsackBruteForce extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param items Takes a List<Item> and calculates the total value of all Item in the List
-     * @return int total value of all Item in the list
+     * @param items Takes a List<algorithms.Item> and calculates the total value of all algorithms.Item in the List
+     * @return int total value of all algorithms.Item in the list
      */
     default int calculateValue(List<Item> items) {
         int total = 0;
@@ -57,8 +57,8 @@ public interface ZeroNKnapsackBruteForce extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param items Takes a List<Item> and calculates the total weight of all Item in the List
-     * @return int total weight of all Item in the list
+     * @param items Takes a List<algorithms.Item> and calculates the total weight of all algorithms.Item in the List
+     * @return int total weight of all algorithms.Item in the list
      */
     default int calculateWeight(List<Item> items) {
         int total = 0;

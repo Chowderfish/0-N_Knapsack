@@ -52,10 +52,10 @@ public interface TestGenerator {
         int mode = -1;
         String nameForConsole;
         System.out.println("Specify which algorithm you would like to run:");
-        System.out.println("1.  0-1 Knapsack Dynamic Programming Algorithm");
-        System.out.println("2.  0-N Knapsack Brute Force Algorithm");
-        System.out.println("3.  0-N Knapsack Dynamic Programming Algorithm");
-        System.out.println("4.  0-N Knapsack Graph Search Algorithm");
+        System.out.println("1.  0-1 algorithms.Knapsack Dynamic Programming Algorithm");
+        System.out.println("2.  0-N algorithms.Knapsack Brute Force Algorithm");
+        System.out.println("3.  0-N algorithms.Knapsack Dynamic Programming Algorithm");
+        System.out.println("4.  0-N algorithms.Knapsack Graph Search Algorithm");
         System.out.println("0.  Benchmark mode (runs all algorithms)");
         while (mode == -1) {
             input = scanner.nextLine();
@@ -160,10 +160,10 @@ public interface TestGenerator {
 
         String nameForConsole = "benchmark: ";
         System.out.println(
-                nameForConsole+"0-1 Knapsack Dynamic Programming Algorithm completed in: "+zeroOneDynamic+"ms"+"    (approx. "+(zeroOneDynamic/numTests)+"ms per test)"+
-                "\n"+nameForConsole+"0-N Knapsack Brute Force Algorithm completed in: "+zeroNBruteForce+"ms"+"    (approx. "+(zeroNBruteForce/numTests)+"ms per test)"+
-                "\n"+nameForConsole+"0-N Knapsack Dynamic Programming Algorithm completed in: "+zeroNDynamic+"ms"+"    (approx. "+(zeroNDynamic/numTests)+"ms per test)"+
-                "\n"+nameForConsole+"0-N Knapsack Graph Search Algorithm completed in: "+zeroNGS+"ms"+"    (approx. "+(zeroNGS/numTests)+"ms per test)");
+                nameForConsole+"0-1 algorithms.Knapsack Dynamic Programming Algorithm completed in: "+zeroOneDynamic+"ms"+"    (approx. "+(zeroOneDynamic/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N algorithms.Knapsack Brute Force Algorithm completed in: "+zeroNBruteForce+"ms"+"    (approx. "+(zeroNBruteForce/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N algorithms.Knapsack Dynamic Programming Algorithm completed in: "+zeroNDynamic+"ms"+"    (approx. "+(zeroNDynamic/numTests)+"ms per test)"+
+                "\n"+nameForConsole+"0-N algorithms.Knapsack Graph Search Algorithm completed in: "+zeroNGS+"ms"+"    (approx. "+(zeroNGS/numTests)+"ms per test)");
     }
 
     static Knapsack zeroOneDynamic(int knapsackWeight) {

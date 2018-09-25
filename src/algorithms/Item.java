@@ -14,7 +14,7 @@ public interface Item {
     int getValue();
 
     /**
-     * Prints the given Item onto the System console.
+     * Prints the given algorithms.Item onto the System console.
      */
     default void print() {
         System.out.println("[ weight: "+getWeight()+" value: "+getValue()+" ]");

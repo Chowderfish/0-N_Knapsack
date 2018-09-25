@@ -6,8 +6,8 @@ public interface ZeroOneKnapsackDynamic extends Knapsack {
 
     /**
      * The only default method of this interface which should be called externally.
-     * @param allItems array of Items with which the Knapsack may be filled
-     * @return Item[] array of the items that achieve the best possible value within the weight limit of this Knapsack
+     * @param allItems array of Items with which the algorithms.Knapsack may be filled
+     * @return algorithms.Item[] array of the items that achieve the best possible value within the weight limit of this algorithms.Knapsack
      */
     default Item[] fillKnapsack(Item[] allItems) {
         int[][] table = calculateValueTable(allItems);
@@ -16,8 +16,8 @@ public interface ZeroOneKnapsackDynamic extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param items array of Items with which the Knapsack may be filled
-     * @return int[][] table representing the best value fill of the Knapsack's weight
+     * @param items array of Items with which the algorithms.Knapsack may be filled
+     * @return int[][] table representing the best value fill of the algorithms.Knapsack's weight
      */
     default int[][] calculateValueTable(Item[] items) {
         int[][] table = new int[items.length+1][totalAllowedWeight()+1];
@@ -39,8 +39,8 @@ public interface ZeroOneKnapsackDynamic extends Knapsack {
 
     /**
      * Should not be called directly from outside of this interface.
-     * @param table int[][] array representing the best value fill of the Knapsack's weight
-     * @param items Item array of the items which achieve the optimal fill of the Knapsack
+     * @param table int[][] array representing the best value fill of the algorithms.Knapsack's weight
+     * @param items algorithms.Item array of the items which achieve the optimal fill of the algorithms.Knapsack
      * @return
      */
     default Item[] itemsFromValueTable(int[][] table, Item[] items) {
